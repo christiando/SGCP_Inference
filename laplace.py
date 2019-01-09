@@ -304,8 +304,10 @@ class Laplace_SGCP():
         ddsigmoid_int_points = dsigmoid_int_points * \
                                (1. - 2.*sigmoid_int_points)
         kappa_ddsigmoid_int_points = ddsigmoid_int_points*self.kappa_int_points
-        self.Sigma_g_s_inv[:-1, :-1] = self.lmbda_star * self.kappa_int_points.dot(
-            kappa_ddsigmoid_int_points.T) / self.num_integration_points * self.R
+        self.Sigma_g_s_inv[:-1, :-1] = self.lmbda_star * \
+                                       self.kappa_int_points.dot(
+             kappa_ddsigmoid_int_points.T) / self.num_integration_points * \
+                                       self.R
         kappa_dsigmoid_X = dsigmoid_X * self.kappa_X
         self.Sigma_g_s_inv[:-1, :-1] += self.kappa_X.dot(kappa_dsigmoid_X.T)
         self.Sigma_g_s_inv[:-1, :-1] += self.Ks_inv

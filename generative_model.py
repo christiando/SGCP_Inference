@@ -182,7 +182,8 @@ def inhomogeneous_poisson_process_approx(S_borders, lmbda_star, cov_params,
         thinned_idx = []
         for ipoint in range(X_unthinned.shape[0]):
             X = X_unthinned[ipoint]
-            distance = numpy.sqrt(numpy.sum((X_mesh - X[numpy.newaxis])**2, axis=1))
+            distance = numpy.sqrt(numpy.sum((X_mesh - X[numpy.newaxis])**2,
+                                            axis=1))
             g_point_idx = numpy.argmin(distance)
             if intensity_function[g_point_idx] >= rand_nums[ipoint]:
                 thinned_idx.append(ipoint)

@@ -1,7 +1,11 @@
-# SG_Inference
+# SGCP_Inference
 
 Libary for SGCP (Sigmoidal Gaussian Cox Process) inference. This code
 accompanies the publication in Journal of Machine Learning Research.
+
+Donner, C., & Opper, M. (2018). 
+Efficient Bayesian Inference of Sigmoidal Gaussian Cox Processes. 
+Journal of Machine Learning Research, 19(67).
 
 Link to publication:
 <http://www.jmlr.org/papers/v19/17-759.html>

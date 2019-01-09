@@ -50,7 +50,7 @@ print('Data was generated.')
 # Fit variational mean field posterior
 var_mf_sgcp = VMF_SGCP(S_borders, X, cov_params, num_inducing_points,
                        num_integration_points=num_integration_points,
-                       update_hyperparams=True, output=0, conv_crit=1e-4)
+                       update_hyperparams=False, output=0, conv_crit=1e-4)
 var_mf_sgcp.run()
 mu_lmbda_vb, var_lmbda_vb = var_mf_sgcp.predictive_intensity_function(X_grid)
 fit_time_vb = var_mf_sgcp.times[-1] - var_mf_sgcp.times[0]
@@ -140,7 +140,8 @@ log_lmbda_max_vb = (alpha_vb - 1)*numpy.log(lmbda_max_range) - \
                beta_vb*lmbda_max_range +  alpha_vb*numpy.log(beta_vb) - \
                gammaln(alpha_vb)
 lmbda_max_vb = numpy.exp(log_lmbda_max_vb)*dlmbda
-mu_laplace, sigma_laplace = laplace_sgcp.mu_g_s[-1], laplace_sgcp.Sigma_g_s[-1, -1]
+mu_laplace, sigma_laplace = laplace_sgcp.mu_g_s[-1], \
+                            laplace_sgcp.Sigma_g_s[-1, -1]
 log_lmbda_max_laplace = - .5*numpy.log(2. * numpy.pi * sigma_laplace) \
                         - .5*(numpy.log(lmbda_max_range) - mu_laplace)**2 \
                         / sigma_laplace - numpy.log(lmbda_max_range)
