@@ -94,7 +94,6 @@ def inhomogeneous_poisson_process(S_borders, lmbda_star, cov_params,
     R = numpy.prod(S)
     expected_num_events = R * lmbda_star * num_sets
     num_events = numpy.random.poisson(expected_num_events, 1)[0]
-    print(num_events)
     X_unthinned = numpy.random.rand(num_events, D)*S[None]
     event_set_id = numpy.random.randint(0, num_sets, num_events)
 
