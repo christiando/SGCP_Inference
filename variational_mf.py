@@ -23,6 +23,7 @@ __license__ = 'gpl-3.0'
 import numpy
 from scipy.special import digamma, gammaln
 from scipy.integrate import quadrature
+from scipy.linalg import solve_triangular
 import time
 
 
@@ -82,7 +83,8 @@ class VMF_SGCP():
         self.Ks = self.cov_func(self.induced_points, self.induced_points)
         L = numpy.linalg.cholesky(self.Ks + self.noise * numpy.eye(
             self.Ks.shape[0]))
-        L_inv = numpy.linalg.solve(L, numpy.eye(L.shape[0]))
+        L_inv = solve_triangular(L, numpy.eye(L.shape[0]), lower=True,
+                                 check_finite=False)
         self.Ks_inv = L_inv.T.dot(L_inv)
         self.logdet_Ks = 2. * numpy.sum(numpy.log(L.diagonal()))
 
@@ -248,7 +250,8 @@ class VMF_SGCP():
         L_inv = numpy.linalg.cholesky(self.Sigma_g_s_inv + self.noise *
                                       numpy.eye(
             self.Sigma_g_s_inv.shape[0]))
-        L = numpy.linalg.solve(L_inv, numpy.eye(L_inv.shape[0]))
+        L = solve_triangular(L_inv, numpy.eye(L_inv.shape[0]), lower=True,
+                             check_finite=False)
         self.Sigma_g_s = L.T.dot(L)
         self.logdet_Sigma_g_s = 2*numpy.sum(numpy.log(L.diagonal()))
         b_int_points = -.5 * self.lmbda_q2
@@ -366,7 +369,8 @@ class VMF_SGCP():
         self.Ks = self.cov_func(self.induced_points, self.induced_points)
         L = numpy.linalg.cholesky(self.Ks + self.noise * numpy.eye(
             self.Ks.shape[0]))
-        L_inv = numpy.linalg.solve(L, numpy.eye(L.shape[0]))
+        L_inv = solve_triangular(L, numpy.eye(L.shape[0]), lower=True,
+                                 check_finite=False)
         self.Ks_inv = L_inv.T.dot(L_inv)
         self.logdet_Ks = 2. * numpy.sum(numpy.log(L.diagonal()))
         self.kappa_X = self.Ks_inv.dot(self.ks_X)

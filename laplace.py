@@ -24,6 +24,7 @@ __license__ = 'gpl-3.0'
 import numpy
 import time
 from scipy.integrate import quadrature
+from scipy.linalg import solve_triangular
 
 
 class Laplace_SGCP():
@@ -74,7 +75,8 @@ class Laplace_SGCP():
         self.Ks = self.cov_func(self.induced_points, self.induced_points)
         L = numpy.linalg.cholesky(self.Ks + self.noise * numpy.eye(
             self.Ks.shape[0]))
-        L_inv = numpy.linalg.solve(L, numpy.eye(L.shape[0]))
+        L_inv = solve_triangular(L, numpy.eye(L.shape[0]), lower=True,
+                                 check_finite=False)
         self.Ks_inv = L_inv.T.dot(L_inv)
         self.logdet_Ks = 2. * numpy.sum(numpy.log(L.diagonal()))
 
@@ -321,8 +323,8 @@ class Laplace_SGCP():
                                            numpy.eye(
             self.num_inducing_points + 1))
 
-        self.L = numpy.linalg.solve(self.L_inv,
-                                   numpy.eye(self.num_inducing_points + 1))
+        self.L = solve_triangular(self.L_inv, numpy.eye(self.L_inv.shape[0]),
+                                  lower=True, check_finite=False)
         self.Sigma_g_s = self.L.T.dot(self.L)
 
     def sample_laplace(self, xprime, num_samples):
